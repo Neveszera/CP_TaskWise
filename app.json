@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "TaskWise",
+    "slug": "TaskWise",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/people_icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/people_icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/people_icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/people_icon.png"
+    }
+  }
+}
