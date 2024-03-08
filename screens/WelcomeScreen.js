@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
+import { View, StyleSheet, Animated, Easing, Image } from 'react-native';
 
 const WelcomeScreen = ({ navigation }) => {
   useEffect(() => {
@@ -20,7 +20,8 @@ const WelcomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Animated.Text style={[styles.title, { opacity: fadeAnim, textAlign: 'center'}]}>Bem-vindo ao Tarefas Remanescentes!</Animated.Text>
+      <Animated.Text style={[styles.title, { opacity: fadeAnim, textAlign: 'center'}]}>TaskWise</Animated.Text>
+      <Image source={require('../assets/mobile-phone.png')} style={styles.image} />
     </View>
   );
 };
@@ -33,10 +34,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#6a1b9a',
   },
   title: {
-    fontSize: 24,
+    fontSize: 44,
     fontWeight: 'bold',
     color: '#fff',
     padding: 20,
+  },
+  image: {
+    width: 400,
+    height: 400,
+    resizeMode: 'contain', 
   },
 });
 
