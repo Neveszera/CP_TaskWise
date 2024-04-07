@@ -89,10 +89,10 @@ const NotesScreen = () => {
               <Text style={styles.text}>{item.text}</Text>
               <View style={styles.iconContainer}>
                 <TouchableOpacity onPress={() => openEditModal(item)}>
-                  <MaterialIcons name="edit" size={24} color="#ffffff" />
+                  <MaterialIcons name="edit" size={24} color="#6a1b9a" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => deleteNote(item.id)}>
-                  <MaterialIcons name="delete" size={24} color="#ffffff" />
+                  <MaterialIcons name="delete" size={24} color="#6a1b9a" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   card: {
-    backgroundColor: '#6a1b9a',
+    backgroundColor: '#f5f5f5',
     borderRadius: 10,
     padding: 20,
     margin: 10,
@@ -187,11 +187,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#ffffff',
   },
   text: {
     fontSize: 16,
-    color: '#ffffff',
   },
   iconContainer: {
     flexDirection: 'row',
