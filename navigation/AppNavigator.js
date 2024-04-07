@@ -26,19 +26,19 @@ const TabNavigator = () => (
       }}
     />
     <Tab.Screen
-      name="Calendário"
-      component={CalendarScreen}
-      options={{
-        tabBarLabel: 'Calendário',
-        tabBarIcon: ({ color }) => <MaterialIcons name="calendar-today" size={24} color={color} />,
-      }}
-    />
-    <Tab.Screen
       name="Notas"
       component={NotesScreen}
       options={{
         tabBarLabel: 'Notas',
         tabBarIcon: ({ color }) => <MaterialIcons name="note" size={24} color={color} />,
+      }}
+    />
+    <Tab.Screen
+      name="Calendário"
+      component={CalendarScreen}
+      options={{
+        tabBarLabel: 'Calendário',
+        tabBarIcon: ({ color }) => <MaterialIcons name="calendar-today" size={24} color={color} />,
       }}
     />
   </Tab.Navigator>
