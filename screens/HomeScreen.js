@@ -145,7 +145,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
     padding: 20,
   },
   addButton: {
@@ -162,10 +162,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   taskCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
     borderRadius: 10,
     padding: 20,
-    marginBottom: 10,
+    margin: 10,
     elevation: 2,
   },
   taskTitle: {
