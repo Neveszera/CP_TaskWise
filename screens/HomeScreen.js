@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, FlatList, SafeAreaView, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,6 +11,31 @@ const HomeScreen = () => {
   const [taskTitle, setTaskTitle] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [taskDate, setTaskDate] = useState(moment().format('DD/MM/YYYY'));
+
+  useEffect(() => {
+    retrieveTasks();
+  }, []);
+
+  const retrieveTasks = async () => {
+    try {
+      const storedTasks = await AsyncStorage.getItem('tasks');
+      if (storedTasks !== null) {
+        setTasks(JSON.parse(storedTasks));
+        console.log('Tarefas recuperadas:', JSON.parse(storedTasks));
+      }
+    } catch (error) {
+      console.error('Erro ao recuperar tarefas: ', error);
+    }
+  };
+
+  const storeTasks = async (tasks) => {
+    try {
+      await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+      console.log('Tarefas armazenadas:', tasks);
+    } catch (error) {
+      console.error('Erro ao armazenar tarefas: ', error);
+    }
+  };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -21,7 +47,10 @@ const HomeScreen = () => {
 
   const addTask = () => {
     if (!taskTitle.trim()) return;
-    setTasks([...tasks, { id: Math.random().toString(), title: taskTitle, description: taskDescription, date: taskDate }]);
+    const newTask = { id: Math.random().toString(), title: taskTitle, description: taskDescription, date: taskDate };
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    storeTasks(updatedTasks);
     toggleModal();
   };
 
@@ -34,12 +63,14 @@ const HomeScreen = () => {
       return task;
     });
     setTasks(updatedTasks);
+    storeTasks(updatedTasks);
     toggleModal();
   };
 
-  const deleteTask = (taskId) => {
+  const deleteTask = async (taskId) => {
     const updatedTasks = tasks.filter(task => task.id !== taskId);
     setTasks(updatedTasks);
+    storeTasks(updatedTasks);
   };
 
   const openEditModal = (task) => {
@@ -64,6 +95,7 @@ const HomeScreen = () => {
                 <TouchableOpacity onPress={() => openEditModal(item)}>
                   <MaterialIcons name="edit" size={24} color="#6a1b9a" />
                 </TouchableOpacity>
+                <View style={{width: 10}}></View>
                 <TouchableOpacity onPress={() => deleteTask(item.id)}>
                   <MaterialIcons name="delete" size={24} color="#6a1b9a" />
                 </TouchableOpacity>
