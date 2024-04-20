@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import NotesScreen from '../screens/NotesScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import MemberScreen from '../screens/MemberScreen'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +40,14 @@ const TabNavigator = () => (
       options={{
         tabBarLabel: 'Calendário',
         tabBarIcon: ({ color }) => <MaterialIcons name="calendar-today" size={24} color={color} />,
+      }}
+    />
+    <Tab.Screen
+      name="Membros"
+      component={MemberScreen}
+      options={{
+        tabBarLabel: 'Membros',
+        tabBarIcon: ({ color }) => <MaterialIcons name="people" size={24} color={color} />,
       }}
     />
   </Tab.Navigator>
