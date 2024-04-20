@@ -6,7 +6,7 @@ const MemberScreen = () => {
     const members = [
         {
             name: 'Gabriel Neves Gomes',
-            photo: require('../assets/NevesPerfil.png'),
+            photo: require('../assets/members/NevesPerfil.png'),
             email: 'gabrielgng26@gmail.com',
             github: 'https://github.com/Neveszera',
             linkedin: 'https://www.linkedin.com/in/-gabriel-neves/',
@@ -14,7 +14,7 @@ const MemberScreen = () => {
         },
         {
             name: 'Gabriel Sampaio Gianini',
-            photo: require('../assets/SampaioPerfil.png'),
+            photo: require('../assets/members/SampaioPerfil.png'),
             email: 'gianinisampaio1@gmail.com',
             github: 'https://github.com/gabrielsampaiog',
             linkedin: 'https://www.linkedin.com/in/gabrielsampaiogianini/',
@@ -29,25 +29,26 @@ const MemberScreen = () => {
     return (
         <View style={styles.container}>
             {members.map((member, index) => (
-                <View key={index}>
-                    <View style={styles.memberContainer}>
-                        <Image source={member.photo} style={styles.photo} />
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.name}>{member.name}</Text>
-                            <Text style={styles.email}>{member.email}</Text>
-                            <Text style={styles.description}>{member.description}</Text>
-                            <View style={styles.linksContainer}>
-                                <TouchableOpacity onPress={() => openLink(member.github)}>
-                                    <FontAwesome name="github" size={24} color="#333333" style={styles.icon} />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => openLink(member.linkedin)}>
-                                    <FontAwesome name="linkedin" size={24} color="#0077b5" style={styles.icon} />
-                                </TouchableOpacity>
-                            </View>
+                <TouchableOpacity
+                    key={index}
+                    style={styles.card}
+                    onPress={() => console.log("Card pressed", member.name)}
+                >
+                    <Image source={member.photo} style={styles.photo} />
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.name}>{member.name}</Text>
+                        <Text style={styles.email}>{member.email}</Text>
+                        <Text style={styles.description}>{member.description}</Text>
+                        <View style={styles.linksContainer}>
+                            <TouchableOpacity onPress={() => openLink(member.github)}>
+                                <FontAwesome name="github" size={24} color="#333333" style={styles.icon} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => openLink(member.linkedin)}>
+                                <FontAwesome name="linkedin" size={24} color="#0077b5" style={styles.icon} />
+                            </TouchableOpacity>
                         </View>
                     </View>
-                    {index < members.length - 1 && <View style={styles.separator} />}
-                </View>
+                </TouchableOpacity>
             ))}
         </View>
     );
@@ -60,20 +61,23 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: '#ffffff',
     },
-    memberContainer: {
+    card: {
         flexDirection: 'row',
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        backgroundColor: '#f5f5f5',
+        borderRadius: 10,
+        padding: 20,
         marginBottom: 20,
     },
     photo: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
+        width: 80,
+        height: 80,
+        borderRadius: 40,
         marginRight: 20,
     },
     infoContainer: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
     },
     name: {
         fontSize: 18,
@@ -89,15 +93,9 @@ const styles = StyleSheet.create({
     },
     linksContainer: {
         flexDirection: 'row',
-        marginBottom: 5,
     },
     icon: {
         marginRight: 10,
-    },
-    separator: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#cccccc',
-        marginBottom: 20,
     },
 });
 
