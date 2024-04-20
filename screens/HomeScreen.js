@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Fla
 import { MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Calendar } from 'react-native-calendars';
 
 const HomeScreen = () => {
   const [tasks, setTasks] = useState([]);
@@ -10,7 +11,8 @@ const HomeScreen = () => {
   const [editedTask, setEditedTask] = useState(null);
   const [taskTitle, setTaskTitle] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [taskDate, setTaskDate] = useState(moment().format('DD/MM/YYYY'));
+  const [taskDate, setTaskDate] = useState(moment().format('YYYY-MM-DD'));
+  const [markedDates, setMarkedDates] = useState({});
 
   useEffect(() => {
     retrieveTasks();
@@ -21,17 +23,26 @@ const HomeScreen = () => {
       const storedTasks = await AsyncStorage.getItem('tasks');
       if (storedTasks !== null) {
         setTasks(JSON.parse(storedTasks));
-        console.log('Tarefas recuperadas:', JSON.parse(storedTasks));
+        markTaskDates(JSON.parse(storedTasks));
       }
     } catch (error) {
       console.error('Erro ao recuperar tarefas: ', error);
     }
   };
 
+  const markTaskDates = (taskList) => {
+    const markedDates = taskList.reduce((obj, task) => {
+      obj[task.date] = { selected: true, selectedColor: '#6a1b9a' };
+      return obj;
+    }, {});
+    setMarkedDates(markedDates);
+  };
+
   const storeTasks = async (tasks) => {
     try {
       await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
-      console.log('Tarefas armazenadas:', tasks);
+      setTasks([...tasks]); // Atualiza as tarefas
+      markTaskDates(tasks); // Atualiza os marcadores de data
     } catch (error) {
       console.error('Erro ao armazenar tarefas: ', error);
     }
@@ -42,14 +53,13 @@ const HomeScreen = () => {
     setEditedTask(null);
     setTaskTitle('');
     setTaskDescription('');
-    setTaskDate(moment().format('DD/MM/YYYY'));
+    setTaskDate(moment().format('YYYY-MM-DD'));
   };
 
   const addTask = () => {
     if (!taskTitle.trim()) return;
     const newTask = { id: Math.random().toString(), title: taskTitle, description: taskDescription, date: taskDate };
     const updatedTasks = [...tasks, newTask];
-    setTasks(updatedTasks);
     storeTasks(updatedTasks);
     toggleModal();
   };
@@ -62,14 +72,12 @@ const HomeScreen = () => {
       }
       return task;
     });
-    setTasks(updatedTasks);
     storeTasks(updatedTasks);
     toggleModal();
   };
 
   const deleteTask = async (taskId) => {
     const updatedTasks = tasks.filter(task => task.id !== taskId);
-    setTasks(updatedTasks);
     storeTasks(updatedTasks);
   };
 
@@ -79,6 +87,10 @@ const HomeScreen = () => {
     setTaskDescription(task.description);
     setTaskDate(task.date);
     setModalVisible(true);
+  };
+
+  const handleDayPress = (day) => {
+    setTaskDate(day.dateString);
   };
 
   return (
@@ -125,11 +137,12 @@ const HomeScreen = () => {
               value={taskDescription}
               onChangeText={text => setTaskDescription(text)}
             />
-            <TextInput
-              style={styles.input}
-              placeholder="Data (DD/MM/YYYY)"
-              value={taskDate}
-              onChangeText={text => setTaskDate(text)}
+            <Calendar
+              current={taskDate}
+              onDayPress={handleDayPress}
+              minDate={moment().format('YYYY-MM-DD')}
+              markingType={'custom'}
+              markedDates={{ [taskDate]: { selected: true, selectedColor: '#6a1b9a' } }}
             />
             <View style={styles.buttonContainer}>
               <Button title={editedTask ? "Editar" : "Adicionar"} onPress={editedTask ? editTask : addTask} />
